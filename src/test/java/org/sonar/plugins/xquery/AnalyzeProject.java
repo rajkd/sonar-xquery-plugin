@@ -5,10 +5,15 @@
 package org.sonar.plugins.xquery;
 
 import org.codehaus.plexus.util.FileUtils;
+import org.sonar.api.batch.fs.FilePredicate;
+import org.sonar.api.batch.fs.FileSystem;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
 import org.sonar.api.rules.AnnotationRuleParser;
 import org.sonar.api.rules.Rule;
 import org.sonar.api.utils.AnnotationUtils;
 import org.sonar.api.utils.SonarException;
+import org.sonar.plugins.xquery.api.XQueryConstants;
 import org.sonar.plugins.xquery.checks.AbstractCheck;
 import org.sonar.plugins.xquery.language.Issue;
 import org.sonar.plugins.xquery.language.SourceCode;
@@ -76,13 +81,20 @@ public class AnalyzeProject {
                 }        
             }
         }
-
+        FileSystem fileSystem = new DefaultFileSystem(directory);
+        FilePredicate mainFilePredicate = fileSystem.predicates().and(
+                fileSystem.predicates().hasType(InputFile.Type.MAIN),
+                fileSystem.predicates().hasLanguage(XQueryConstants.XQUERY_LANGUAGE_KEY));
+        Iterable<InputFile> inputFiles = fileSystem.inputFiles(mainFilePredicate);
         // Do the first pass to map all the global dependencies
         System.out.println("Scanning all files to map dependencies");
-        for (File file: (List<File>) FileUtils.getFiles(directory, MAPPING_INCLUDES, MAPPING_EXCLUDES)) {
+        for(InputFile inputFile : inputFiles){
+        //for (File file: (List<File>) FileUtils.getFiles(directory, MAPPING_INCLUDES, MAPPING_EXCLUDES)) {
+            File file = inputFile.file();
             if (file.exists()) {
                 try {
-                    SourceCode sourceCode = new XQuerySourceCode(org.sonar.api.resources.File.create(file.getAbsolutePath()), file);
+                    //SourceCode sourceCode = new XQuerySourceCode(org.sonar.api.resources.File.create(file.getAbsolutePath()), file);
+                    SourceCode sourceCode = new XQuerySourceCode(inputFile);
                     System.out.println("----- Mapping " + file.getAbsolutePath() + " -----");
                     FileUtils.fileAppend(outputFile, "\n----- Mapping " + file.getAbsolutePath() + " -----");
     
@@ -106,10 +118,12 @@ public class AnalyzeProject {
 
         // Do the second pass to process the checks and other metrics
         System.out.println("Scanning all files and gathering metrics");
-        for (File file:  (List<File>) FileUtils.getFiles(directory, PROCESS_INCLUDES, PROCESS_EXCLUDES)) {
+        for(InputFile inputFile : inputFiles){
+            File file = inputFile.file();
+        //for (File file:  (List<File>) FileUtils.getFiles(directory, PROCESS_INCLUDES, PROCESS_EXCLUDES)) {
             if (file.exists()) {    
                 try {
-                    SourceCode sourceCode = new XQuerySourceCode(org.sonar.api.resources.File.create(file.getAbsolutePath()), file);
+                    SourceCode sourceCode = new XQuerySourceCode(inputFile);
                     System.out.println("----- Analyzing " + file.getAbsolutePath() + " -----");
                     FileUtils.fileAppend(outputFile, "\n----- Analyzing " + file.getAbsolutePath() + " -----");
     

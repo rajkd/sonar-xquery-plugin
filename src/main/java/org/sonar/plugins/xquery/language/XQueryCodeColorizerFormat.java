@@ -4,11 +4,11 @@
 
 package org.sonar.plugins.xquery.language;
 
-import org.sonar.api.web.CodeColorizerFormat;
-import org.sonar.colorizer.KeywordsTokenizer;
-import org.sonar.colorizer.RegexpTokenizer;
-import org.sonar.colorizer.StringTokenizer;
-import org.sonar.colorizer.Tokenizer;
+//import org.sonar.api.web.CodeColorizerFormat;
+//import org.sonar.colorizer.KeywordsTokenizer;
+//import org.sonar.colorizer.RegexpTokenizer;
+//import org.sonar.colorizer.StringTokenizer;
+//import org.sonar.colorizer.Tokenizer;
 import org.sonar.plugins.xquery.api.XQueryConstants;
 
 import java.util.*;
@@ -16,9 +16,10 @@ import java.util.*;
 import static org.sonar.plugins.xquery.language.XQuery.KEYWORDS_ARRAY;
 import static org.sonar.plugins.xquery.language.XQuery.TYPES_ARRAY;
 
-public class XQueryCodeColorizerFormat extends CodeColorizerFormat {
+public class XQueryCodeColorizerFormat //extends CodeColorizerFormat {
+{
 
-	private final List<Tokenizer> tokenizers = new ArrayList<Tokenizer>();
+	/*private final List<Tokenizer> tokenizers = new ArrayList<Tokenizer>();
 	private static final Set<String> KEYWORDS = new HashSet<String>();
 	private static final Set<String> TYPES = new HashSet<String>();
 
@@ -27,7 +28,7 @@ public class XQueryCodeColorizerFormat extends CodeColorizerFormat {
 		Collections.addAll(TYPES, TYPES_ARRAY);
 	}
 
-	/*
+	*//*
 	 * Style Classes for colors:
 	 * a: annotations (tan bold)
 	 * k: keywords (blue bold)
@@ -38,7 +39,7 @@ public class XQueryCodeColorizerFormat extends CodeColorizerFormat {
 	 * cppd: (grey)
 	 * h: (blue)
 	 * p: (green)
-	 */
+	 *//*
 
 	public XQueryCodeColorizerFormat() {
 		super(XQueryConstants.XQUERY_LANGUAGE_KEY);
@@ -68,5 +69,5 @@ public class XQueryCodeColorizerFormat extends CodeColorizerFormat {
 	@Override
 	public List<Tokenizer> getTokenizers() {
 		return tokenizers;
-	}
+	}*/
 }

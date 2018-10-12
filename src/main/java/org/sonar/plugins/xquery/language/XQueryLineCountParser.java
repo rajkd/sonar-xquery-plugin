@@ -33,7 +33,7 @@ public class XQueryLineCountParser extends AbstractCheck {
     }
 
     public void count() {
-        logger.fine("Count comment in " + sourceCode.getResource().getLongName());
+        //logger.fine("Count comment in " + sourceCode.getInputFile().relativePath());
         
         ArrayList<String> code = (ArrayList<String>) sourceCode.getCode();
 
@@ -67,9 +67,9 @@ public class XQueryLineCountParser extends AbstractCheck {
             }
         }
                 
-        sourceCode.addMeasure(CoreMetrics.FUNCTIONS, (double) functions);
-        sourceCode.addMeasure(CoreMetrics.LINES, (double) linesOfCode);
-        sourceCode.addMeasure(CoreMetrics.COMMENT_LINES, (double) commentLines);
-        sourceCode.addMeasure(CoreMetrics.NCLOC, (double) linesOfCode - blankLines - commentLines);        
+        sourceCode.addMeasure(CoreMetrics.FUNCTIONS, functions);
+        sourceCode.addMeasure(CoreMetrics.LINES, linesOfCode);
+        sourceCode.addMeasure(CoreMetrics.COMMENT_LINES, commentLines);
+        sourceCode.addMeasure(CoreMetrics.NCLOC, linesOfCode - blankLines - commentLines);
     }
 }

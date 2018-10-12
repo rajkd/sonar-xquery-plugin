@@ -4,6 +4,7 @@
 
 package org.sonar.plugins.xquery.language;
 
+import org.sonar.api.batch.sensor.measure.internal.DefaultMeasure;
 import org.sonar.api.measures.CoreMetrics;
 import org.sonar.plugins.xquery.AbstractSonarTest;
 import org.testng.Assert;
@@ -23,7 +24,7 @@ public class XqueryLineCountParserTest extends AbstractSonarTest {
         
         new XQueryLineCountParser(sourceCode).count();
         
-        Assert.assertEquals(sourceCode.getMeasure(CoreMetrics.COMMENT_LINES).getValue(), 1.0);
+        Assert.assertTrue(sourceCode.getMeasure(CoreMetrics.COMMENT_LINES).getValue() == 1);
     }
 
 //    @Test

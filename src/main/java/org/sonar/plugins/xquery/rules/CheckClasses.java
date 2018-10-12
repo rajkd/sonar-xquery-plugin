@@ -6,8 +6,9 @@ package org.sonar.plugins.xquery.rules;
 
 import org.sonar.plugins.xquery.checks.*;
 
-import com.google.common.collect.ImmutableList;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public final class CheckClasses {
     }
 
     public static List<Class> getChecks() {
-        return ImmutableList.<Class>of(
+        List<Class> list = new ArrayList<Class>(Arrays.asList(
             DynamicFunctionCheck.class,
             EffectiveBooleanCheck.class,
             FunctionMappingCheck.class,
@@ -37,6 +38,7 @@ public final class CheckClasses {
             XPathSubExpressionsInPredicateCheck.class,
             XPathTextStepsCheck.class,
             XQueryVersionCheck.class
-        );
+        ));
+        return Collections.unmodifiableList(list);
     }
 }
